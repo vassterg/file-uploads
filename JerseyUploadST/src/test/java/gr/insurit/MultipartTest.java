@@ -27,13 +27,49 @@ public class MultipartTest {
     
     private static final String BASE_URI = "http://localhost:8080/JerseyUpload/resources/";
 
+//    @Test
+//    public void testGetIt() throws Exception {
+//
+//        final Client client = ClientBuilder.newBuilder()
+//                .register(MultiPartFeature.class)
+//                .build();
+//        WebTarget t = client.target(BASE_URI).path("multipart").path("upload2");
+//
+//        //InputStream in = MultipartTest.class.getResourceAsStream("devops.jpg");
+//        FileDataBodyPart filePart = new FileDataBodyPart("file", new File(getClass().getResource("devops.jpg").toURI()));
+//        // UPDATE: just tested again, and the below code is not needed.
+//        // It's redundant. Using the FileDataBodyPart already sets the
+//        // Content-Disposition information
+//        //filePart.setContentDisposition(
+//        //        FormDataContentDisposition.name("file")
+//        //                .fileName("stackoverflow.png").build());
+//
+//        String empPartJson
+//                = "{"
+//                + "  \"id\": 1234,"
+//                + "  \"name\": \"Peeskillet\""
+//                + "  \"age\": 52"
+//                + "}";
+//
+//        MultiPart multipartEntity = new FormDataMultiPart()
+//                .field("emp", empPartJson, MediaType.APPLICATION_JSON_TYPE)
+//                .bodyPart(filePart);
+//
+//        Response response = t.request().post(
+//                Entity.entity(multipartEntity, multipartEntity.getMediaType()));
+//        System.out.println(response.getStatus());
+//        System.out.println(response.readEntity(String.class));
+//
+//        response.close();
+//    }
+
     @Test
-    public void testGetIt() throws Exception {
+    public void testGetItServlet() throws Exception {
 
         final Client client = ClientBuilder.newBuilder()
                 .register(MultiPartFeature.class)
                 .build();
-        WebTarget t = client.target(BASE_URI).path("multipart").path("upload2");
+        WebTarget t = client.target("http://localhost:8080/JerseyUpload").path("upload");
 
         //InputStream in = MultipartTest.class.getResourceAsStream("devops.jpg");
         FileDataBodyPart filePart = new FileDataBodyPart("file", new File(getClass().getResource("devops.jpg").toURI()));
@@ -53,6 +89,7 @@ public class MultipartTest {
 
         MultiPart multipartEntity = new FormDataMultiPart()
                 .field("emp", empPartJson, MediaType.APPLICATION_JSON_TYPE)
+                .field("destination", "/home/vasilis")
                 .bodyPart(filePart);
 
         Response response = t.request().post(

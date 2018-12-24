@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -27,11 +28,25 @@ import javax.servlet.http.Part;
  */
 @WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig
-public class FileUploadServlet {
+public class FileUploadServlet extends HttpServlet{
 
     private final static Logger LOGGER
             = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
+        processRequest(req, resp);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
+         processRequest(req, resp);
+    }
+       
+    
+    
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
