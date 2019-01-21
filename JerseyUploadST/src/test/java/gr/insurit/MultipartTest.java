@@ -6,7 +6,6 @@
 package gr.insurit;
 
 import java.io.File;
-import java.io.InputStream;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -92,11 +91,10 @@ public class MultipartTest {
                 .field("destination", "/home/vasilis")
                 .bodyPart(filePart);
 
-        Response response = t.request().post(
-                Entity.entity(multipartEntity, multipartEntity.getMediaType()));
-        System.out.println(response.getStatus());
-        System.out.println(response.readEntity(String.class));
-
-        response.close();
+        try (Response response = t.request().post(
+                Entity.entity(multipartEntity, multipartEntity.getMediaType()))) {
+            System.out.println(response.getStatus());
+            System.out.println(response.readEntity(String.class));
+        }
     }
 }
